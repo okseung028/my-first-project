@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>실험 데이터 계산기</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      width: 320px;
+      box-shadow: 0 8px 30px #0001;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #result { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>실험 데이터 계산기</h2>
+    <p>기준군 값</p>
+    <input type="number" id="control" value="1" step="any">
+    <p>처리군 값</p>
+    <input type="number" id="treated" value="1.8" step="any">
+    <button onclick="calculate()">계산하기</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    function calculate() {
+      const control = Number(document.getElementById("control").value);
+      const treated = Number(document.getElementById("treated").value);
+      const result = document.getElementById("result");
+      if (!Number.isFinite(control) || !Number.isFinite(treated) || control === 0 ||
+          document.getElementById("control").value === "" ||
+          document.getElementById("treated").value === "") {
+        result.textContent = "유효한 숫자를 입력해주세요. 기준군은 0일 수 없습니다.";
+        return;
+      }
+      const fold = treated / control;
+      const change = (fold - 1) * 100;
+      result.textContent =
+        "배수: " + fold.toFixed(2) + "배 | 변화율: " + change.toFixed(1) + "%";
+    }
+    calculate();
+  </script>
+</body>
+</html>
